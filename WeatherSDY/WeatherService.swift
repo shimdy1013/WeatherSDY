@@ -37,12 +37,12 @@ class WeatherService {
     func getWeather(completion: @escaping (Result<WeatherResponse, NetworkError>) -> Void) {
         
         // 1. URL - API 호출을 위한 URL
-        let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?q=seoul&appid=\(apiKey)")
+        let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?q=seoul&appid=\(apiKey)&units=metric")
         guard let url = url else {
             return completion(.failure(.badUrl))
         }
         
-        // 2. URLSession 만들고 3. task 주기
+        // 2. URLSession 만들고 task 주기
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
                 return completion(.failure(.noData))
@@ -58,6 +58,6 @@ class WeatherService {
             } else {
                 completion(.failure(.decodingError))
             }
-        }.resume() // 4. dataTask 시작
+        }.resume() // 3. dataTask 시작
     }
 }

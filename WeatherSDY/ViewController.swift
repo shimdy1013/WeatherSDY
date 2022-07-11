@@ -45,9 +45,15 @@ class ViewController: UIViewController {
         if let data = data {
             iconImageView.image = UIImage(data: data)
         }
-        tempLabel.text = "\(main!.temp)"
-        maxTempLabel.text = "\(main!.temp_max)"
-        minTempLabel.text = "\(main!.temp_min)"
+        
+        guard let temp = main?.temp else { return }
+        tempLabel.text = "\(temp)"
+        
+        guard let maxTemp = main?.temp_max else { return }
+        maxTempLabel.text = "\(maxTemp)"
+        
+        guard let minTemp = main?.temp_min else { return }
+        minTempLabel.text = "\(minTemp)"
     }
 }
 
