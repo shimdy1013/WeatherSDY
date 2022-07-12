@@ -11,8 +11,10 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var tempLabel: UILabel!
-    @IBOutlet weak var minTempLabel: UILabel!
-    @IBOutlet weak var maxTempLabel: UILabel!
+    @IBOutlet weak var maxminTempLabel: UILabel!
+    @IBOutlet weak var localName: UILabel!
+    @IBOutlet weak var feelLikeLabel: UILabel!
+    @IBOutlet weak var dayTimeLabel: UILabel!
     
     
     // 받아온 데이터를 저장할 프로퍼티
@@ -22,7 +24,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // data fetch
         WeatherService().getWeather { result in
             switch result {
@@ -32,6 +34,7 @@ class ViewController: UIViewController {
                     self.main = weatherResponse.main
                     self.name = weatherResponse.name
                     self.setWeatherUI()
+                    self.getDayTime()
                 }
             case .failure(_ ):
                 print("error")
@@ -46,14 +49,52 @@ class ViewController: UIViewController {
             iconImageView.image = UIImage(data: data)
         }
         
-        guard let temp = main?.temp else { return }
-        tempLabel.text = "\(temp)"
+        guard var temp = main?.temp else { return }
+        temp = roundTempDecimal(value: temp)
+        tempLabel.text = "\(temp)º"
         
-        guard let maxTemp = main?.temp_max else { return }
-        maxTempLabel.text = "\(maxTemp)"
+        guard var maxTemp = main?.temp_max, var minTemp = main?.temp_min else { return }
+        maxTemp = roundTempDecimal(value: maxTemp)
+        minTemp = roundTempDecimal(value: minTemp)
+        maxminTempLabel.text = "\(maxTemp)º  /  \(minTemp)º"
         
-        guard let minTemp = main?.temp_min else { return }
-        minTempLabel.text = "\(minTemp)"
+        guard var feelLikeTemp = main?.feels_like else { return }
+        feelLikeTemp = roundTempDecimal(value: feelLikeTemp)
+        feelLikeLabel.text = "\(feelLikeTemp)º"
+        
+        localName.text = name
+        
+        maxminTempLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        localName.font = UIFont.boldSystemFont(ofSize: 24)
+    }
+    
+    // 현재시간 요일 구하기
+    private func getDayTime() {
+        
+        let day = getDayOfWeek(date: Date())
+        
+        let formatter_date = DateFormatter()
+        formatter_date.dateFormat = "M월 dd일"
+        let date = formatter_date.string(from: Date())
+        
+        dayTimeLabel.text = "\(date), \(day)요일"
+        dayTimeLabel.font = UIFont.boldSystemFont(ofSize: 20)
+    }
+    
+    // 소수점 두 자리에서 반올림
+    private func roundTempDecimal(value: Double) -> Double {
+        let digit: Double = pow(10, 1) // 10의 1제곱
+        let temp = round(value * digit) / digit
+        return temp
+    }
+    
+    // 요일 구하기
+    private func getDayOfWeek(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEEEE"
+        formatter.locale = Locale(identifier:"ko_KR")
+        let convertStr = formatter.string(from: date)
+        return convertStr
     }
 }
 
