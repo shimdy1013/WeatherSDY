@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DropDown
 
 class ViewController: UIViewController {
 
@@ -62,7 +63,8 @@ class ViewController: UIViewController {
         feelLikeTemp = roundTempDecimal(value: feelLikeTemp)
         feelLikeLabel.text = "\(feelLikeTemp)º"
         
-        localName.text = name
+        guard let local = name else { return }
+        localName.text = "\(local) ⌵"
         
         maxminTempLabel.font = UIFont.boldSystemFont(ofSize: 20)
         localName.font = UIFont.boldSystemFont(ofSize: 24)

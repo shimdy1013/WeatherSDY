@@ -16,6 +16,7 @@
 		12A2979128743939000F0062 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A2979028743939000F0062 /* Weather.swift */; };
 		12A2979328743A63000F0062 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A2979228743A63000F0062 /* WeatherService.swift */; };
 		12D77EA42872CCD50007D414 /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 12D77EA32872CCD50007D414 /* APIKey.plist */; };
+		EC24C15F1C1BB970BA74C74F /* Pods_WeatherSDY.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5EF18DC7AB7250318551F13 /* Pods_WeatherSDY.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,9 @@
 		12A2979028743939000F0062 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		12A2979228743A63000F0062 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		12D77EA32872CCD50007D414 /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
+		787539166FE6CE110A2FBD12 /* Pods-WeatherSDY.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherSDY.release.xcconfig"; path = "Target Support Files/Pods-WeatherSDY/Pods-WeatherSDY.release.xcconfig"; sourceTree = "<group>"; };
+		D5EF18DC7AB7250318551F13 /* Pods_WeatherSDY.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherSDY.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF95527FADDCC9A1CA8C0F51 /* Pods-WeatherSDY.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherSDY.debug.xcconfig"; path = "Target Support Files/Pods-WeatherSDY/Pods-WeatherSDY.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EC24C15F1C1BB970BA74C74F /* Pods_WeatherSDY.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,6 +53,8 @@
 			children = (
 				1208FA2C286F729F006851D3 /* WeatherSDY */,
 				1208FA2B286F729F006851D3 /* Products */,
+				CA8970771ACB49F802A93D70 /* Pods */,
+				97A28836C9891158328E78E7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -76,6 +83,23 @@
 			path = WeatherSDY;
 			sourceTree = "<group>";
 		};
+		97A28836C9891158328E78E7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D5EF18DC7AB7250318551F13 /* Pods_WeatherSDY.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CA8970771ACB49F802A93D70 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DF95527FADDCC9A1CA8C0F51 /* Pods-WeatherSDY.debug.xcconfig */,
+				787539166FE6CE110A2FBD12 /* Pods-WeatherSDY.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -83,9 +107,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1208FA3E286F72A0006851D3 /* Build configuration list for PBXNativeTarget "WeatherSDY" */;
 			buildPhases = (
+				04E9F861A5EDE9A59590FFFA /* [CP] Check Pods Manifest.lock */,
 				1208FA26286F729F006851D3 /* Sources */,
 				1208FA27286F729F006851D3 /* Frameworks */,
 				1208FA28286F729F006851D3 /* Resources */,
+				91B32B7B3CE957CF369B51F3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -142,6 +168,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		04E9F861A5EDE9A59590FFFA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WeatherSDY-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		91B32B7B3CE957CF369B51F3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WeatherSDY/Pods-WeatherSDY-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WeatherSDY/Pods-WeatherSDY-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WeatherSDY/Pods-WeatherSDY-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1208FA26286F729F006851D3 /* Sources */ = {
@@ -294,6 +362,7 @@
 		};
 		1208FA3F286F72A0006851D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DF95527FADDCC9A1CA8C0F51 /* Pods-WeatherSDY.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -323,6 +392,7 @@
 		};
 		1208FA40286F72A0006851D3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 787539166FE6CE110A2FBD12 /* Pods-WeatherSDY.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
