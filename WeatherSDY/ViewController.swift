@@ -13,15 +13,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var maxminTempLabel: UILabel!
-    @IBOutlet weak var localName: UILabel!
     @IBOutlet weak var feelLikeLabel: UILabel!
     @IBOutlet weak var dayTimeLabel: UILabel!
-    
+    @IBOutlet weak var dropView: UIView!
+    @IBOutlet weak var regionName: UILabel!
     
     // 받아온 데이터를 저장할 프로퍼티
     var weather: Weather?
     var main: Main?
     var name: String?
+    
+    // DropDown 객체 생성, 리스트 정의
+    let dropDown = DropDown()
+    let regionList = ["Seoul", "Chuncheon", "Gangneung", "Chungju", "Suwon", "Andong", "Daejeon", "Jeonju", "Daegu", "Ulsan", "Gwangju", "Mokpo", "Suncheon", "Busan", "Jeju-do"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +45,8 @@ class ViewController: UIViewController {
                 print("error")
             }
         }
+        initUI()
+        setDropdown()
     }
     
     private func setWeatherUI() {
@@ -63,11 +69,11 @@ class ViewController: UIViewController {
         feelLikeTemp = roundTempDecimal(value: feelLikeTemp)
         feelLikeLabel.text = "\(feelLikeTemp)º"
         
-        guard let local = name else { return }
-        localName.text = "\(local) ⌵"
+        guard let region = name else { return }
+        regionName.text = "\(region)"
         
         maxminTempLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        localName.font = UIFont.boldSystemFont(ofSize: 24)
+        regionName.font = UIFont.boldSystemFont(ofSize: 24)
     }
     
     // 현재시간 요일 구하기
@@ -97,6 +103,45 @@ class ViewController: UIViewController {
         formatter.locale = Locale(identifier:"ko_KR")
         let convertStr = formatter.string(from: date)
         return convertStr
+    }
+    
+    // DropDown UI 커스텀
+    func initUI() {
+        // DropDown View의 배경
+        dropView.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 1)
+        dropView.layer.cornerRadius = 8
+        
+        DropDown.appearance().textColor = UIColor.black // 아이템 텍스트 색상
+        DropDown.appearance().selectedTextColor = UIColor.red // 선택된 아이템 텍스트 색상
+        DropDown.appearance().backgroundColor = UIColor.white // 아이템 팝업 배경 색상
+        DropDown.appearance().selectionBackgroundColor = UIColor.lightGray // 선택한 아이템 배경 색상
+        DropDown.appearance().setupCornerRadius(8)
+        dropDown.dismissMode = .automatic // 팝업을 닫을 모드 설정
+    }
+    
+    func setDropdown() {
+        // dataSource로 ItemList를 연결
+        dropDown.dataSource = regionList
+        
+        // anchorView를 통해 UI와 연결
+        dropDown.anchorView = self.dropView
+        
+        // View를 갖리지 않고 View아래에 Item 팝업이 붙도록 설정
+        dropDown.bottomOffset = CGPoint(x: 0, y: dropView.bounds.height)
+        
+        // Item 선택 시 처리
+        dropDown.selectionAction = { [weak self] (index, item) in
+            //선택한 Item을 TextField에 넣어준다.
+            self!.regionName.text = item
+        }
+        
+        // 취소 시 처리
+
+    }
+
+    // View 클릭 시 Action
+    @IBAction func dropdownClicked(_ sender: Any) {
+        dropDown.show() // 아이템 팝업을 보여준다.
     }
 }
 
