@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     
     // DropDown 객체 생성, 리스트 정의
     let dropDown = DropDown()
-    let regionList = ["Seoul", "Chuncheon", "Gangneung", "Chungju", "Suwon", "Andong", "Daejeon", "Jeonju", "Daegu", "Ulsan", "Gwangju", "Mokpo", "Suncheon", "Busan", "Jeju-do"]
+    let regionList = ["서울", "경기", "춘천", "강릉", "청주", "수원", "안동", "대전", "전주", "대구", "울산", "광주", "목포", "순천", "부산", "제주"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ class ViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.weather = weatherResponse.weather.first
                     self.main = weatherResponse.main
-                    self.name = weatherResponse.name
+                    self.name = "서울" // weatherResponse.name
                     self.setWeatherUI()
                     self.getDayTime()
                 }
@@ -131,6 +131,78 @@ class ViewController: UIViewController {
         
         // Item 선택 시 처리
         dropDown.selectionAction = { [weak self] (index, item) in
+            var regionID: Int = 1835847
+            var regionKrName: String = "서울"
+            switch item {
+            case "서울":
+                regionID = 1835847
+                regionKrName = "서울"
+            case "경기":
+                regionID = 1841610
+                regionKrName = "경기"
+            case "춘천":
+                regionID = 1845136
+                regionKrName = "춘천"
+            case "강릉":
+                regionID = 1843137
+                regionKrName = "강릉"
+            case "청주":
+                regionID = 1845033
+                regionKrName = "청주"
+            case "수원":
+                regionID = 1835553
+                regionKrName = "수원"
+            case "안동":
+                regionID = 1846986
+                regionKrName = "안동"
+            case "대전":
+                regionID = 1835224
+                regionKrName = "대전"
+            case "전주":
+                regionID = 1845457
+                regionKrName = "전주"
+            case "대구":
+                regionID = 1835327
+                regionKrName = "대구"
+            case "울산":
+                regionID = 1833742
+                regionKrName = "울산"
+            case "광주":
+                regionID = 1841808
+                regionKrName = "광주"
+            case "목포":
+                regionID = 1841066
+                regionKrName = "목포"
+            case "순천":
+                regionID = 1835648
+                regionKrName = "순천"
+            case "부산":
+                regionID = 1838519
+                regionKrName = "부산"
+            case "제주":
+                regionID = 1846265
+                regionKrName = "제주"
+            default:
+                regionID = 1835847
+                regionKrName = "서울"
+            }
+            
+                
+            // data fetch
+            WeatherService().getWeather(regionID:regionID) { result in
+                switch result {
+                case .success(let weatherResponse):
+                    DispatchQueue.main.async {
+                        self?.weather = weatherResponse.weather.first
+                        self?.main = weatherResponse.main
+                        self?.name = regionKrName
+                        self?.setWeatherUI()
+                        self?.getDayTime()
+                    }
+                case .failure(_ ):
+                    print("error")
+                }
+            }
             //선택한 Item을 TextField에 넣어준다.
             self!.regionName.text = item
         }
@@ -139,7 +211,7 @@ class ViewController: UIViewController {
 
     }
 
-    // View 클릭 시 Action
+    // DropDown 클릭 시 Action
     @IBAction func dropdownClicked(_ sender: Any) {
         dropDown.show() // 아이템 팝업을 보여준다.
     }
