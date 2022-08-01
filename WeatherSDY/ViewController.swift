@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var dayTimeLabel: UILabel!
     @IBOutlet weak var dropView: UIView!
     @IBOutlet weak var regionName: UILabel!
+    @IBOutlet weak var hourlyBackgroundView: UIView!
     
     // 받아온 데이터를 저장할 프로퍼티
     var weather: Weather?
@@ -26,12 +27,16 @@ class ViewController: UIViewController {
     // DropDown 객체 생성, 리스트 정의
     let dropDown = DropDown()
     let regionList = ["서울", "경기", "춘천", "강릉", "청주", "수원", "안동", "대전", "전주", "대구", "울산", "광주", "목포", "순천", "부산", "제주"]
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // hourlyBackgroundView 테두리
+        hourlyBackgroundView.layer.cornerRadius = 20
+        hourlyBackgroundView.layer.borderWidth = 1.0
+        hourlyBackgroundView.layer.borderColor = UIColor.white.cgColor
         // data fetch
-        WeatherService().getWeather { result in
+        WeatherService().getCurrentWeather { result in
             switch result {
             case .success(let weatherResponse):
                 DispatchQueue.main.async {
@@ -50,7 +55,10 @@ class ViewController: UIViewController {
     }
     
     private func setWeatherUI() {
+        // 현재 날씨
         let url = URL(string: "https://openweathermap.org/img/wn/\(self.weather?.icon ?? "00")@2x.png")
+        // 시간별, 일별 날씨
+        // let url = URL(string: "https://openweathermap.org")
         let data = try? Data(contentsOf: url!)
         if let data = data {
             iconImageView.image = UIImage(data: data)
@@ -189,7 +197,7 @@ class ViewController: UIViewController {
             
                 
             // data fetch
-            WeatherService().getWeather(regionID:regionID) { result in
+            WeatherService().getCurrentWeather(regionID:regionID) { result in
                 switch result {
                 case .success(let weatherResponse):
                     DispatchQueue.main.async {

@@ -34,10 +34,40 @@ class WeatherService {
         }
     }
     
-    func getWeather(regionID: Int = 1835847, completion: @escaping (Result<WeatherResponse, NetworkError>) -> Void) {
+    // 현재 날씨
+    func getCurrentWeather(regionID: Int = 1835847, completion: @escaping (Result<WeatherResponse, NetworkError>) -> Void) {
         
         // 1. URL - API 호출을 위한 URL
         let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?id=\(regionID)&appid=\(apiKey)&units=metric")
+        guard let url = url else {
+            return completion(.failure(.badUrl))
+        }
+        
+        // 2. URLSession 만들고 task 주기
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                return completion(.failure(.noData))
+            }
+            
+            // Data 타입으로 받은 리턴을 디코드
+            let weatherResponse = try? JSONDecoder().decode(WeatherResponse.self, from: data)
+
+            // 성공
+            if let weatherResponse = weatherResponse {
+                print(weatherResponse)
+                completion(.success(weatherResponse)) // 성공한 데이터 저장
+            } else {
+                completion(.failure(.decodingError))
+            }
+        }.resume() // 3. dataTask 시작
+    }
+    
+    // 시간별, 일별 날씨
+    func getOnecallWeather(regionID: Int = 1835847, completion: @escaping (Result<WeatherResponse, NetworkError>) -> Void) {
+        
+        // 1. URL - API 호출을 위한 URL
+        let url = URL(string: "https://api.openweathermap.org/data/3.0/onecall?lat=37.583328&lon=127.0&exclude=minutely&appid=\(apiKey)&units=metric"
+)
         guard let url = url else {
             return completion(.failure(.badUrl))
         }
