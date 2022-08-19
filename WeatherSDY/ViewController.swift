@@ -8,6 +8,16 @@
 import UIKit
 import DropDown
 
+extension Date {
+    var millisecondsSince1970: Int64 {
+        Int64((self.timeIntervalSince1970 * 1000.0).rounded())
+    }
+    
+    init(milliseconds: Int64) {
+        self = Date(timeIntervalSince1970: TimeInterval(milliseconds) / 1000)
+    }
+}
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var iconImageView: UIImageView!
@@ -18,11 +28,16 @@ class ViewController: UIViewController {
     @IBOutlet weak var dropView: UIView!
     @IBOutlet weak var regionName: UILabel!
     @IBOutlet weak var hourlyBackgroundView: UIView!
+    @IBOutlet weak var hourlyUI: UIStackView!
+    
+    @IBOutlet weak var hourlyView: UIView!
     
     // 받아온 데이터를 저장할 프로퍼티
     var weather: Weather?
     var main: Main?
     var name: String?
+    var hourly: Hourly?
+    var oneWeaather: OneWeather?
     
     // DropDown 객체 생성, 리스트 정의
     let dropDown = DropDown()
@@ -48,6 +63,20 @@ class ViewController: UIViewController {
                 }
             case .failure(_ ):
                 print("error")
+            }
+        }
+        OnecallWeatherService().getOnecallWeather { result in
+            switch result {
+            case .success(let oneWeatherResponse):
+                DispatchQueue.main.async {
+                    for i in 0...17 {
+                        self.hourly = oneWeatherResponse.hourly[i+1]
+                        self.setHourlyWeatherUI(num: i)
+                    }
+                }
+                print("onecall success")
+            case .failure(_ ):
+                print("onecall error")
             }
         }
         initUI()
@@ -84,7 +113,51 @@ class ViewController: UIViewController {
         regionName.font = UIFont.boldSystemFont(ofSize: 24)
     }
     
-    // 현재시간 요일 구하기
+    private func setHourlyWeatherUI(num: Int) {
+        
+        // hourly - 시간 구하기
+        guard let dt: Int = hourly?.dt else { return }
+        let beforeTime = TimeInterval(dt)
+        let hourlyDate = Date(timeIntervalSince1970: beforeTime) // beforeTime: Double만 정상 작동
+        // print(hourlyDate) // 2022-08-04 06:00:00 +0000
+        let formatter_hourly = DateFormatter()
+        formatter_hourly.dateFormat = "a h시"
+        let hourlyTime = formatter_hourly.string(from: hourlyDate)
+        print(hourlyTime) // 오후 2시
+        
+        // 시간 UI 적용
+        let hourlyTimeView: UIView = hourlyUI.arrangedSubviews[num].subviews[0]
+        if let hourlyTimeLabel = hourlyTimeView as? UILabel {   // UIView를 UILabel로 다운캐스팅
+            hourlyTimeLabel.text = hourlyTime
+            hourlyTimeLabel.font = UIFont.systemFont(ofSize: 15)
+        } else {
+            print("hourlyUI fail")
+        }
+        
+        // 아이콘 UI 적용
+        let url = URL(string: "https://openweathermap.org/img/wn/\(hourly?.weather.first?.icon ?? "00")@2x.png")
+        let data = try? Data(contentsOf: url!)
+        let hourlyIconView: UIView = hourlyUI.arrangedSubviews[num].subviews[1]
+        guard let hourlyIcon = hourlyIconView as? UIImageView else { return }
+        guard let data = data else { return }
+        hourlyIcon.image = UIImage(data: data)
+        
+        // 온도 UI 적용
+        guard let hourlyTemp = hourly?.temp else { return }
+        let hourlyTempView: UIView = hourlyUI.arrangedSubviews[num].subviews[2]
+        guard let hourlyTempLabel = hourlyTempView as? UILabel else { return }
+        hourlyTempLabel.text = "\(roundTempDecimalOne(value: hourlyTemp))º"
+        
+        // 강수 UI 적용
+        guard let pop = hourly?.pop else { return }
+        let hourlyPopView: UIView = hourlyUI.arrangedSubviews[num].subviews[3]
+        guard let hourlyPopLabel = hourlyPopView as? UILabel else { return }
+        let popText = Int(pop * 100)
+        hourlyPopLabel.text = "\(popText)%"
+    }
+    
+    
+    // 현재시간 요일 구하기, UI 적용
     private func getDayTime() {
         
         let day = getDayOfWeek(date: Date())
@@ -101,6 +174,13 @@ class ViewController: UIViewController {
     private func roundTempDecimal(value: Double) -> Double {
         let digit: Double = pow(10, 1) // 10의 1제곱
         let temp = round(value * digit) / digit
+        return temp
+    }
+    
+    // 소수점 한 자리에서 반올림
+    private func roundTempDecimalOne(value: Double) -> Int {
+        let digit: Double = pow(10, 0) // 10의 0제곱
+        let temp = Int(round(value * digit) / digit)
         return temp
     }
     
