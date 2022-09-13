@@ -36,10 +36,10 @@ class OnecallWeatherService {
     }
     
     // 시간별, 일별 날씨
-    func getOnecallWeather(completion: @escaping (Result<OneWeatherResponse, OneNetworkError>) -> Void) {
+    func getOnecallWeather(lon: Double = 127.0, lat: Double = 37.583328, completion: @escaping (Result<OneWeatherResponse, OneNetworkError>) -> Void) {
         
         // 1. URL - API 호출을 위한 URL
-        let url = URL(string: "https://api.openweathermap.org/data/3.0/onecall?lat=37.583328&lon=127.0&exclude=current,minutely,alerts,daily&appid=\(apiKey)&units=metric")
+        let url = URL(string: "https://api.openweathermap.org/data/3.0/onecall?lat=\(lat)&lon=\(lon)&exclude=current,minutely,alerts,daily&appid=\(apiKey)&units=metric")
         guard let url = url else {
             return completion(.failure(.badUrl))
         }

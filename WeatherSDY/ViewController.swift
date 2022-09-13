@@ -74,7 +74,6 @@ class ViewController: UIViewController {
                         self.setHourlyWeatherUI(num: i)
                     }
                 }
-                print("onecall success")
             case .failure(_ ):
                 print("onecall error")
             }
@@ -85,12 +84,33 @@ class ViewController: UIViewController {
     
     private func setWeatherUI() {
         // 현재 날씨
-        let url = URL(string: "https://openweathermap.org/img/wn/\(self.weather?.icon ?? "00")@2x.png")
-        // 시간별, 일별 날씨
-        // let url = URL(string: "https://openweathermap.org")
-        let data = try? Data(contentsOf: url!)
-        if let data = data {
-            iconImageView.image = UIImage(data: data)
+        // let url = URL(string: "https://openweathermap.org/img/wn/\(self.weather?.icon ?? "00")@2x.png")
+        // let data = try? Data(contentsOf: url!)
+        // if let data = data {
+        //    iconImageView.image = UIImage(data: data)
+        // }
+
+        switch self.weather?.icon {
+        case "01d":
+            iconImageView.image = UIImage(named: "contrast")
+        case "01n":
+            iconImageView.image = UIImage(named: "moon")
+        case "02d":
+            iconImageView.image = UIImage(named: "cloudDay")
+        case "02n":
+            iconImageView.image = UIImage(named: "cloudNight")
+        case "03d", "03n", "04d", "04n":
+            iconImageView.image = UIImage(named: "cloud")
+        case "09d", "09n", "10d", "10n":
+            iconImageView.image = UIImage(named: "rain")
+        case "11d", "11n":
+            iconImageView.image = UIImage(named: "thunderstorm")
+        case "13d", "13n":
+            iconImageView.image = UIImage(named: "snow")
+        case "50d", "50n":
+            iconImageView.image = UIImage(named: "haze")
+        default:
+            iconImageView.image = UIImage(named: "contrast")
         }
         
         guard var temp = main?.temp else { return }
@@ -123,7 +143,7 @@ class ViewController: UIViewController {
         let formatter_hourly = DateFormatter()
         formatter_hourly.dateFormat = "a h시"
         let hourlyTime = formatter_hourly.string(from: hourlyDate)
-        print(hourlyTime) // 오후 2시
+        //  print(hourlyTime) // 오후 2시
         
         // 시간 UI 적용
         let hourlyTimeView: UIView = hourlyUI.arrangedSubviews[num].subviews[0]
@@ -134,13 +154,38 @@ class ViewController: UIViewController {
             print("hourlyUI fail")
         }
         
-        // 아이콘 UI 적용
-        let url = URL(string: "https://openweathermap.org/img/wn/\(hourly?.weather.first?.icon ?? "00")@2x.png")
-        let data = try? Data(contentsOf: url!)
+        // 아이콘 UI 적용 - 너무 느려서 아이콘 변경
+        //let url = URL(string: "https://openweathermap.org/img/wn/\(hourly?.weather.first?.icon ?? "00")@2x.png")
+        //let data = try? Data(contentsOf: url!)
+        //let hourlyIconView: UIView = hourlyUI.arrangedSubviews[num].subviews[1]
+        //guard let hourlyIcon = hourlyIconView as? UIImageView else { return }
+        //guard let data = data else { return }
+        //hourlyIcon.image = UIImage(data: data)
         let hourlyIconView: UIView = hourlyUI.arrangedSubviews[num].subviews[1]
         guard let hourlyIcon = hourlyIconView as? UIImageView else { return }
-        guard let data = data else { return }
-        hourlyIcon.image = UIImage(data: data)
+        
+        switch hourly?.weather.first?.icon {
+        case "01d":
+            hourlyIcon.image = UIImage(named: "contrast")
+        case "01n":
+            hourlyIcon.image = UIImage(named: "moon")
+        case "02d":
+            hourlyIcon.image = UIImage(named: "cloudDay")
+        case "02n":
+            hourlyIcon.image = UIImage(named: "cloudNight")
+        case "03d", "03n", "04d", "04n":
+            hourlyIcon.image = UIImage(named: "cloud")
+        case "09d", "09n", "10d", "10n":
+            hourlyIcon.image = UIImage(named: "rain")
+        case "11d", "11n":
+            hourlyIcon.image = UIImage(named: "thunderstorm")
+        case "13d", "13n":
+            hourlyIcon.image = UIImage(named: "snow")
+        case "50d", "50n":
+            hourlyIcon.image = UIImage(named: "haze")
+        default:
+            hourlyIcon.image = UIImage(named: "contrast")
+        }
         
         // 온도 UI 적용
         guard let hourlyTemp = hourly?.temp else { return }
@@ -154,6 +199,8 @@ class ViewController: UIViewController {
         guard let hourlyPopLabel = hourlyPopView as? UILabel else { return }
         let popText = Int(pop * 100)
         hourlyPopLabel.text = "\(popText)%"
+        let hourlyPopImage: UIImageView  = hourlyUI.arrangedSubviews[num].subviews[4] as! UIImageView
+        hourlyPopImage.image = UIImage(named: "pop")
     }
     
     
@@ -221,58 +268,95 @@ class ViewController: UIViewController {
         dropDown.selectionAction = { [weak self] (index, item) in
             var regionID: Int = 1835847
             var regionKrName: String = "서울"
+            var lon: Double = 127.0
+            var lat: Double = 37.583328
+            
             switch item {
             case "서울":
                 regionID = 1835847
                 regionKrName = "서울"
+                lon = 127.0
+                lat = 37.583328
             case "경기":
                 regionID = 1841610
                 regionKrName = "경기"
+                lon = 127.25
+                lat = 37.599998
             case "춘천":
                 regionID = 1845136
                 regionKrName = "춘천"
+                lon = 127.734169
+                lat = 37.874722
             case "강릉":
                 regionID = 1843137
                 regionKrName = "강릉"
+                lon = 128.896103
+                lat = 37.755562
             case "청주":
                 regionID = 1845033
                 regionKrName = "청주"
+                lon = 127.93222
+                lat = 36.970558
             case "수원":
                 regionID = 1835553
                 regionKrName = "수원"
+                lon = 127.008888
+                lat = 37.291111
             case "안동":
                 regionID = 1846986
                 regionKrName = "안동"
+                lon = 128.725006
+                lat = 36.565559
             case "대전":
                 regionID = 1835224
                 regionKrName = "대전"
+                lon = 127.416672
+                lat = 36.333328
             case "전주":
                 regionID = 1845457
                 regionKrName = "전주"
+                lon = 127.148888
+                lat = 35.821941
             case "대구":
                 regionID = 1835327
                 regionKrName = "대구"
+                lon = 128.550003
+                lat = 35.799999
             case "울산":
                 regionID = 1833742
                 regionKrName = "울산"
+                lon = 129.266663
+                lat = 35.566669
             case "광주":
                 regionID = 1841808
                 regionKrName = "광주"
+                lon = 126.916672
+                lat = 35.166672
             case "목포":
                 regionID = 1841066
                 regionKrName = "목포"
+                lon = 126.388611
+                lat = 34.79361
             case "순천":
                 regionID = 1835648
                 regionKrName = "순천"
+                lon = 127.489471
+                lat = 34.948078
             case "부산":
                 regionID = 1838519
                 regionKrName = "부산"
+                lon = 129.050003
+                lat = 35.133331
             case "제주":
                 regionID = 1846265
                 regionKrName = "제주"
+                lon = 126.5
+                lat = 33.416672
             default:
                 regionID = 1835847
                 regionKrName = "서울"
+                lon = 127.0
+                lat = 37.583328
             }
             
                 
@@ -289,6 +373,20 @@ class ViewController: UIViewController {
                     }
                 case .failure(_ ):
                     print("error")
+                }
+            }
+            
+            OnecallWeatherService().getOnecallWeather(lon: lon, lat: lat) { result in
+                switch result {
+                case .success(let oneWeatherResponse):
+                    DispatchQueue.main.async {
+                        for i in 0...17 {
+                            self?.hourly = oneWeatherResponse.hourly[i+1]
+                            self?.setHourlyWeatherUI(num: i)
+                        }
+                    }
+                case .failure(_ ):
+                    print("onecall error")
                 }
             }
             //선택한 Item을 TextField에 넣어준다.
