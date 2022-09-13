@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var maxminTempLabel: UILabel!
+    @IBOutlet weak var feelLabel: UILabel!
     @IBOutlet weak var feelLikeLabel: UILabel!
     @IBOutlet weak var dayTimeLabel: UILabel!
     @IBOutlet weak var dropView: UIView!
@@ -50,6 +51,7 @@ class ViewController: UIViewController {
         hourlyBackgroundView.layer.cornerRadius = 20
         hourlyBackgroundView.layer.borderWidth = 1.0
         hourlyBackgroundView.layer.borderColor = UIColor.white.cgColor
+        feelLabel.text = "체감온도"
         // data fetch
         WeatherService().getCurrentWeather { result in
             switch result {

@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ApJ-Xy-Zsk">
-                                <rect key="frame" x="0.0" y="44" width="414" height="1456"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="1422"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bqV-jP-4LO">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="1200"/>
@@ -27,7 +27,6 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.51575899124145508" green="0.81533879041671753" blue="0.96874457597732544" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="bqV-jP-4LO" firstAttribute="leading" secondItem="8lG-3Z-5jY" secondAttribute="leading" id="AfO-Lr-YHH"/>
                                     <constraint firstItem="bqV-jP-4LO" firstAttribute="bottom" secondItem="8lG-3Z-5jY" secondAttribute="bottom" id="C7b-ba-cy9"/>
@@ -73,8 +72,8 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="체감온도" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wAh-gU-dMh">
-                                <rect key="frame" x="269.66666666666669" y="252.99999999999997" width="62.333333333333314" height="49.666666666666657"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wAh-gU-dMh">
+                                <rect key="frame" x="332" y="252.66666666666663" width="0.0" height="50"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="18"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -1258,7 +1257,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.60784316059999999" green="0.84705877299999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="ApJ-Xy-Zsk" secondAttribute="bottom" id="1cn-yh-9PL"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ApJ-Xy-Zsk" secondAttribute="bottom" id="1cn-yh-9PL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="C8C-qL-PHU" secondAttribute="trailing" constant="30" id="1xU-8B-je9"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="ENb-tO-wsr" secondAttribute="bottom" constant="306.5" id="2Au-uj-nAB"/>
                             <constraint firstItem="ZMs-0S-9qo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="3JB-eR-qYI"/>
@@ -1298,6 +1297,7 @@
                     <connections>
                         <outlet property="dayTimeLabel" destination="C8C-qL-PHU" id="uOw-28-jxc"/>
                         <outlet property="dropView" destination="Wkw-a9-uGh" id="Nx0-9f-b3Z"/>
+                        <outlet property="feelLabel" destination="wAh-gU-dMh" id="4Wu-2w-vVh"/>
                         <outlet property="feelLikeLabel" destination="lId-nO-J7E" id="eiK-Er-lBc"/>
                         <outlet property="hourlyBackgroundView" destination="ZMs-0S-9qo" id="48F-tv-9m7"/>
                         <outlet property="hourlyUI" destination="zKP-E0-IBc" id="vI4-JK-nav"/>
@@ -1310,7 +1310,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2748.5507246376815" y="-808.59375"/>
+            <point key="canvasLocation" x="3042" y="-921"/>
         </scene>
     </scenes>
     <resources>
