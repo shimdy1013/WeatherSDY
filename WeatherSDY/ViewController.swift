@@ -42,7 +42,7 @@ class ViewController: UIViewController {
     
     // DropDown 객체 생성, 리스트 정의
     let dropDown = DropDown()
-    let regionList = ["서울", "경기", "춘천", "강릉", "청주", "수원", "안동", "대전", "전주", "대구", "울산", "광주", "목포", "순천", "부산", "제주"]
+    let regionKrList = ["서울", "경기", "춘천", "강릉", "청주", "수원", "안동", "대전", "전주", "대구", "울산", "광주", "목포", "순천", "부산", "제주"]
 
     
     override func viewDidLoad() {
@@ -52,22 +52,38 @@ class ViewController: UIViewController {
         hourlyBackgroundView.layer.borderWidth = 1.0
         hourlyBackgroundView.layer.borderColor = UIColor.white.cgColor
         feelLabel.text = "체감온도"
+        
+        // UserDefaults
+        let userDefaults = UserDefaults.standard
+        if let selectedRegion = userDefaults.object(forKey: "selectedRegion") {
+            guard let region = Region(rawValue: selectedRegion as! Int) else { return }
+            let regionInfo = region.regionInfo
+            getWeather(regionInfo: regionInfo)
+        } else {
+            getWeather()
+        }
+        initUI()
+        setDropdown()
+    }
+    
+    private func getWeather(regionInfo: RegionInfo = Region.seoul.regionInfo) {
+    
         // data fetch
-        WeatherService().getCurrentWeather { result in
+        WeatherService().getCurrentWeather(regionID: regionInfo.regionID) { result in
             switch result {
             case .success(let weatherResponse):
                 DispatchQueue.main.async {
                     self.weather = weatherResponse.weather.first
                     self.main = weatherResponse.main
-                    self.name = "서울" // weatherResponse.name
+                    self.name = regionInfo.regionKrName // weatherResponse.name
                     self.setWeatherUI()
                     self.getDayTime()
                 }
             case .failure(_ ):
-                print("error")
+                print("GetCurrentWeather Error")
             }
         }
-        OnecallWeatherService().getOnecallWeather { result in
+        OnecallWeatherService().getOnecallWeather(lon: regionInfo.lon, lat: regionInfo.lat) { result in
             switch result {
             case .success(let oneWeatherResponse):
                 DispatchQueue.main.async {
@@ -77,11 +93,9 @@ class ViewController: UIViewController {
                     }
                 }
             case .failure(_ ):
-                print("onecall error")
+                print("GetOnecallWeather Error")
             }
         }
-        initUI()
-        setDropdown()
     }
     
     private func setWeatherUI() {
@@ -258,7 +272,7 @@ class ViewController: UIViewController {
     
     func setDropdown() {
         // dataSource로 ItemList를 연결
-        dropDown.dataSource = regionList
+        dropDown.dataSource = regionKrList
         
         // anchorView를 통해 UI와 연결
         dropDown.anchorView = self.dropView
@@ -268,135 +282,55 @@ class ViewController: UIViewController {
         
         // Item 선택 시 처리
         dropDown.selectionAction = { [weak self] (index, item) in
-            var regionID: Int = 1835847
-            var regionKrName: String = "서울"
-            var lon: Double = 127.0
-            var lat: Double = 37.583328
+            
+            var regionList = Region.seoul
             
             switch item {
             case "서울":
-                regionID = 1835847
-                regionKrName = "서울"
-                lon = 127.0
-                lat = 37.583328
+                regionList = .seoul
             case "경기":
-                regionID = 1841610
-                regionKrName = "경기"
-                lon = 127.25
-                lat = 37.599998
+                regionList = .gyeonggi
             case "춘천":
-                regionID = 1845136
-                regionKrName = "춘천"
-                lon = 127.734169
-                lat = 37.874722
+                regionList = .chuncheon
             case "강릉":
-                regionID = 1843137
-                regionKrName = "강릉"
-                lon = 128.896103
-                lat = 37.755562
+                regionList = .gangneung
             case "청주":
-                regionID = 1845033
-                regionKrName = "청주"
-                lon = 127.93222
-                lat = 36.970558
+                regionList = .chungju
             case "수원":
-                regionID = 1835553
-                regionKrName = "수원"
-                lon = 127.008888
-                lat = 37.291111
+                regionList = .suwon
             case "안동":
-                regionID = 1846986
-                regionKrName = "안동"
-                lon = 128.725006
-                lat = 36.565559
+                regionList = .andong
             case "대전":
-                regionID = 1835224
-                regionKrName = "대전"
-                lon = 127.416672
-                lat = 36.333328
+                regionList = .daejeon
             case "전주":
-                regionID = 1845457
-                regionKrName = "전주"
-                lon = 127.148888
-                lat = 35.821941
+                regionList = .jeonju
             case "대구":
-                regionID = 1835327
-                regionKrName = "대구"
-                lon = 128.550003
-                lat = 35.799999
+                regionList = .daegu
             case "울산":
-                regionID = 1833742
-                regionKrName = "울산"
-                lon = 129.266663
-                lat = 35.566669
+                regionList = .ulsan
             case "광주":
-                regionID = 1841808
-                regionKrName = "광주"
-                lon = 126.916672
-                lat = 35.166672
+                regionList = .gwangju
             case "목포":
-                regionID = 1841066
-                regionKrName = "목포"
-                lon = 126.388611
-                lat = 34.79361
+                regionList = .mokpo
             case "순천":
-                regionID = 1835648
-                regionKrName = "순천"
-                lon = 127.489471
-                lat = 34.948078
+                regionList = .suncheon
             case "부산":
-                regionID = 1838519
-                regionKrName = "부산"
-                lon = 129.050003
-                lat = 35.133331
+                regionList = .busan
             case "제주":
-                regionID = 1846265
-                regionKrName = "제주"
-                lon = 126.5
-                lat = 33.416672
+                regionList = .jeju
             default:
-                regionID = 1835847
-                regionKrName = "서울"
-                lon = 127.0
-                lat = 37.583328
+                regionList = .seoul
             }
             
-                
-            // data fetch
-            WeatherService().getCurrentWeather(regionID:regionID) { result in
-                switch result {
-                case .success(let weatherResponse):
-                    DispatchQueue.main.async {
-                        self?.weather = weatherResponse.weather.first
-                        self?.main = weatherResponse.main
-                        self?.name = regionKrName
-                        self?.setWeatherUI()
-                        self?.getDayTime()
-                    }
-                case .failure(_ ):
-                    print("error")
-                }
-            }
-            
-            OnecallWeatherService().getOnecallWeather(lon: lon, lat: lat) { result in
-                switch result {
-                case .success(let oneWeatherResponse):
-                    DispatchQueue.main.async {
-                        for i in 0...17 {
-                            self?.hourly = oneWeatherResponse.hourly[i+1]
-                            self?.setHourlyWeatherUI(num: i)
-                        }
-                    }
-                case .failure(_ ):
-                    print("onecall error")
-                }
-            }
+            UserDefaults.standard.set(regionList.rawValue, forKey: "selectedRegion")
+            let regionInfo = regionList.regionInfo
+            self?.getWeather(regionInfo: regionInfo)
+
             //선택한 Item을 TextField에 넣어준다.
             self!.regionName.text = item
         }
         
         // 취소 시 처리
-
     }
 
     // DropDown 클릭 시 Action

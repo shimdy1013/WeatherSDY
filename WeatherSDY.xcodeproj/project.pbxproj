@@ -18,6 +18,7 @@
 		12496BB7288EB6EF00DB2098 /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 12496BB6288EB6EF00DB2098 /* APIKey.plist */; };
 		12A2979128743939000F0062 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A2979028743939000F0062 /* Weather.swift */; };
 		12A2979328743A63000F0062 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A2979228743A63000F0062 /* WeatherService.swift */; };
+		12D441CF29FEB48F0076A6D9 /* RegionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D441CE29FEB48F0076A6D9 /* RegionInfo.swift */; };
 		EC24C15F1C1BB970BA74C74F /* Pods_WeatherSDY.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5EF18DC7AB7250318551F13 /* Pods_WeatherSDY.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		12496BB6288EB6EF00DB2098 /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
 		12A2979028743939000F0062 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		12A2979228743A63000F0062 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
+		12D441CE29FEB48F0076A6D9 /* RegionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionInfo.swift; sourceTree = "<group>"; };
 		787539166FE6CE110A2FBD12 /* Pods-WeatherSDY.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherSDY.release.xcconfig"; path = "Target Support Files/Pods-WeatherSDY/Pods-WeatherSDY.release.xcconfig"; sourceTree = "<group>"; };
 		D5EF18DC7AB7250318551F13 /* Pods_WeatherSDY.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherSDY.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF95527FADDCC9A1CA8C0F51 /* Pods-WeatherSDY.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherSDY.debug.xcconfig"; path = "Target Support Files/Pods-WeatherSDY/Pods-WeatherSDY.debug.xcconfig"; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				1208FA2D286F729F006851D3 /* AppDelegate.swift */,
 				1208FA2F286F729F006851D3 /* SceneDelegate.swift */,
 				1208FA31286F729F006851D3 /* ViewController.swift */,
+				12D441CE29FEB48F0076A6D9 /* RegionInfo.swift */,
 				12A2979028743939000F0062 /* Weather.swift */,
 				12A2979228743A63000F0062 /* WeatherService.swift */,
 				1203DBDE2899B388006C778A /* OnecallWeather.swift */,
@@ -225,6 +228,7 @@
 				12A2979328743A63000F0062 /* WeatherService.swift in Sources */,
 				12A2979128743939000F0062 /* Weather.swift in Sources */,
 				1203DBE12899BC5A006C778A /* OnecallWeatherService.swift in Sources */,
+				12D441CF29FEB48F0076A6D9 /* RegionInfo.swift in Sources */,
 				1208FA32286F729F006851D3 /* ViewController.swift in Sources */,
 				1203DBDF2899B388006C778A /* OnecallWeather.swift in Sources */,
 				1208FA2E286F729F006851D3 /* AppDelegate.swift in Sources */,

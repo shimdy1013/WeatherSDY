@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+class Region {
+    var regionID: Int?
+    var regionKrName: String?
+    var lon: Double?
+    var lat: Double?
+    
+    func 
+}

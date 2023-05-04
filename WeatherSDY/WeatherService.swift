@@ -16,8 +16,8 @@ enum NetworkError: Error {
 
 class WeatherService {
     // .plist에서 API Key 가져오기
-    private var apiKey: String {
-        get {
+    private var apiKey: String {    // 연산 프로퍼티
+        get {   // getter
             // 생성한 .plist 파일 경로 불러오기
             guard let filePath = Bundle.main.path(forResource: "APIKey", ofType: "plist") else {
                 fatalError("Couldn't find file 'APIKey.plist'.")

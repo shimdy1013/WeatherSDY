@@ -14,25 +14,25 @@ struct RegionInfo {
     let lat: Double
 }
 
-enum Region {
-    case seoul
-    case gyeonggi
-    case chuncheon
-    case gangneung
-    case chungju
-    case suwon
-    case andong
-    case daejeon
-    case jeonju
-    case daegu
-    case ulsan
-    case gwangju
-    case mokpo
-    case suncheon
-    case busan
-    case jeju
+enum Region: Int {
+    case seoul = 0
+    case gyeonggi = 1
+    case chuncheon = 2
+    case gangneung = 3
+    case chungju = 4
+    case suwon = 5
+    case andong = 6
+    case daejeon = 7
+    case jeonju = 8
+    case daegu = 9
+    case ulsan = 10
+    case gwangju = 11
+    case mokpo = 12
+    case suncheon = 13
+    case busan = 14
+    case jeju = 15
     
-    var region: RegionInfo {
+    var regionInfo: RegionInfo {
         switch self {
         case .seoul:
             return RegionInfo(regionID: 1835847, regionKrName: "서울", lon: 127.0, lat: 37.583328)
@@ -65,10 +65,8 @@ enum Region {
         case .busan:
             return RegionInfo(regionID: 1838519, regionKrName: "부산", lon: 129.050003, lat: 35.133331)
         case .jeju:
-            return RegionInfo(regionID: 1835847, regionKrName: "제주", lon: 126.5, lat: <#T##Double#>)
+            return RegionInfo(regionID: 1835847, regionKrName: "제주", lon: 126.5, lat: 33.416672)
         }
     }
     
 }
-
-
