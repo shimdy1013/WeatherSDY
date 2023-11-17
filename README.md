@@ -1,5 +1,5 @@
 ## 날씨 앱
-Swift, Xcode, AutoLayout, OpenAPI
+작업 툴 : Swift, Xcode, AutoLayout, OpenAPI
 #### 기능
 * 당일의 날씨와 시간별 날씨 정보를 제공
 * 지역 변경 기능
